@@ -8,6 +8,7 @@ public class EgzaminProjectTaskApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EgzaminProjectTaskApplication.class, args);
+        System.out.println();
     }
 
 }
