@@ -1,11 +1,11 @@
-package edu.itstep.project.entity;
+package edu.itstep.project.model;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-public class Teacher {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,14 +16,13 @@ public class Teacher {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Grade> grades;
 
-
-    public Teacher() {
+    public Student() {
     }
 
-    public Teacher(Long id, String firstName, String lastName, List<Grade> grades) {
+    public Student(Long id, String firstName, String lastName, List<Grade> grades) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

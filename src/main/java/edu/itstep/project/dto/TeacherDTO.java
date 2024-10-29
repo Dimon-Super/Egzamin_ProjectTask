@@ -1,6 +1,6 @@
 package edu.itstep.project.dto;
 
-import edu.itstep.project.entity.Teacher;
+import edu.itstep.project.model.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

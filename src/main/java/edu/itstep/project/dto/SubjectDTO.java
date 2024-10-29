@@ -1,7 +1,7 @@
 package edu.itstep.project.dto;
 
 
-import edu.itstep.project.entity.Subject;
+import edu.itstep.project.model.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

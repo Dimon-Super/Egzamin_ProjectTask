@@ -1,7 +1,6 @@
 package edu.itstep.project.dto;
 
 
-import edu.itstep.project.entity.Grade;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

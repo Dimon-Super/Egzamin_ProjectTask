@@ -1,4 +1,4 @@
-package edu.itstep.project.entity;
+package edu.itstep.project.model;
 
 import jakarta.persistence.*;
 
