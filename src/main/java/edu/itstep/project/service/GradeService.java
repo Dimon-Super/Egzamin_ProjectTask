@@ -1,7 +1,6 @@
 package edu.itstep.project.service;
 
-import edu.itstep.project.dto.GradeInDTO;
-import edu.itstep.project.dto.GradeOutDTO;
+import edu.itstep.project.dto.*;
 import edu.itstep.project.exception.StudentNotFoundException;
 import edu.itstep.project.exception.SubjectNotFoundException;
 import edu.itstep.project.exception.TeacherNotFoundException;
@@ -87,5 +86,28 @@ public class GradeService {
             throw new GradeNotFoundException(id);
         }
         gradeRepository.deleteById(id);
+    }
+
+    public List<StudentDTO> getAllStudents() {
+        return studentRepository.findAll()
+                .stream()
+                .map(StudentDTO::new)
+                .toList();
+    }
+
+
+    public List<SubjectDTO> getAllSubjects() {
+        return subjectRepository.findAll()
+                .stream()
+                .map(SubjectDTO::new)
+                .toList();
+    }
+
+
+    public List<TeacherDTO> getAllTeachers() {
+        return teacherRepository.findAll()
+                .stream()
+                .map(TeacherDTO::new)
+                .toList();
     }
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity5">
+<head>
+    <title>Форма оцінки</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/scripts.js" defer></script>
+</head>
+<body>
+<h1>Форма для створення оцінки</h1>
+<form th:id="'createGradeForm'" th:action="@{/api/teachers/grades}" method="post">
+    <label for="student">Студент:</label>
+    <select id="student" name="studentId" th:required="true">
+        <option th:each="student : ${students}" th:value="${student.id}" th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+    </select>
+
+    <label for="subject">Предмет:</label>
+    <select id="subject" name="subjectId" th:required="true">
+        <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
+    </select>
+
+    <label for="date">Дата:</label>
+    <input type="date" id="date" name="date" th:required="true" />
+
+    <label for="gradeValue">Оцінка:</label>
+    <input type="number" id="gradeValue" name="gradeValue" min="0" max="100" th:required="true" />
+
+    <label for="comment">Коментар:</label>
+    <textarea id="comment" name="comment"></textarea>
+
+    <button type="submit">Створити оцінку</button>
+</form>
+
+<h1>Форма для редагування оцінки</h1>
+<form th:id="'updateGradeForm'" th:action="@{/api/teachers/grades/{id}(id=${grade.id})}" method="post">
+    <label for="gradeId">ID оцінки:</label>
+    <input type="number" id="gradeId" name="gradeId" th:value="${grade.id}" required/>
+
+    <label for="newGradeValue">Нова оцінка:</label>
+    <input type="number" id="newGradeValue" name="newGradeValue" min="0" max="100" required/>
+
+    <button type="submit">Редагувати оцінку</button>
+</form>
+
+<h1>Список оцінок</h1>
+<table>
+    <tr>
+        <th>Студент</th>
+        <th>Предмет</th>
+        <th>Оцінка</th>
+        <th>Дата</th>
+        <th>Коментар</th>
+        <th sec:authorize="hasRole('ROLE_TEACHER')">Дії</th>
+    </tr>
+    <tr th:each="grade : ${grades}">
+        <td th:text="${grade.student.firstName} + ' ' + ${grade.student.lastName}"></td>
+        <td th:text="${grade.subject.name}"></td>
+        <td th:text="${grade.value}"></td>
+        <td th:text="${#dates.format(grade.date, 'dd/MM/yyyy')}"></td>
+        <td th:text="${grade.comment}"></td>
+        <td sec:authorize="hasRole('ROLE_TEACHER')">
+            <a th:href="@{/api/teachers/grades/edit/{id}(id=${grade.id})}">Редагувати</a>
+            <a th:href="@{/api/teachers/grades/delete/{id}(id=${grade.id})}" onclick="return confirm('Ви впевнені?')">Видалити</a>
+        </td>
+    </tr>
+</table>
+
+<div th:if="${#lists.isEmpty(grades)}">
+    <p>Оцінок немає.</p>
+</div>
+</body>
+</html>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/grades")
+@RequestMapping("/api/teachers/grades")
 @Validated
 public class GradeController {
 
@@ -22,12 +22,14 @@ public class GradeController {
 
     @GetMapping
     public ResponseEntity<List<GradeOutDTO>> getAllGrades() {
-        return ResponseEntity.ok(gradeService.getAllGrades());
+        List<GradeOutDTO> grades = gradeService.getAllGrades();
+        return ResponseEntity.ok(grades);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GradeOutDTO> getGradeById(@PathVariable Long id) {
-        return ResponseEntity.ok(gradeService.getGradeById(id));
+        GradeOutDTO grade = gradeService.getGradeById(id);
+        return ResponseEntity.ok(grade);
     }
 
     @PostMapping
