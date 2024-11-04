@@ -13,7 +13,10 @@ import edu.itstep.project.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GradeService {
@@ -109,5 +112,17 @@ public class GradeService {
                 .stream()
                 .map(TeacherDTO::new)
                 .toList();
+    }
+
+    public List<GradeOutDTO> filterGrades(Long subjectId, LocalDate date) {
+        return gradeRepository.findAll()
+                .stream()
+                .filter(grade -> (subjectId == null || grade.getSubject().getId().equals(subjectId)) &&
+                        (date == null || grade.getDate().toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate()
+                                .isEqual(date)))
+                .map(GradeOutDTO::new)
+                .collect(Collectors.toList());
     }
 }
