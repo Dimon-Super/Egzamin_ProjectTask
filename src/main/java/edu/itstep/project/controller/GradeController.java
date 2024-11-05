@@ -2,6 +2,7 @@ package edu.itstep.project.controller;
 
 import edu.itstep.project.dto.GradeInDTO;
 import edu.itstep.project.dto.GradeOutDTO;
+import edu.itstep.project.dto.GradeUpdateDTO;
 import edu.itstep.project.service.GradeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,8 @@ public class GradeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateGrade(@Valid @RequestBody GradeInDTO gradeInDTO, @PathVariable Long id) {
-        gradeService.updateGrade(gradeInDTO, id);
+    public ResponseEntity<Void> updateGrade(@Valid @RequestBody GradeUpdateDTO gradeUpdateDTO, @PathVariable Long id) {
+        gradeService.updateGrade(gradeUpdateDTO, id);
         return ResponseEntity.ok().build();
     }
 

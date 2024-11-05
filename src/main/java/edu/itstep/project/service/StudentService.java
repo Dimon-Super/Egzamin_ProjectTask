@@ -15,11 +15,14 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     public List<StudentDTO> getAllStudents() {
-        return studentRepository
+        System.out.println("getAllStudents method called");
+        List<StudentDTO> students = studentRepository
                 .findAll()
                 .stream()
                 .map(StudentDTO::new)
                 .toList();
+        System.out.println("Students count: " + students.size());
+        return students;
     }
 
     public StudentDTO getStudentById(long id) {

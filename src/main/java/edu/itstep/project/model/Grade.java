@@ -2,6 +2,7 @@ package edu.itstep.project.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -16,9 +17,9 @@ public class Grade {
     @Column(nullable = true)
     private String comment;
 
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
-    private Date date;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
@@ -36,7 +37,7 @@ public class Grade {
     public Grade() {
     }
 
-    public Grade(Long id, int gradeValue, String comment, Date date, Student student, Subject subject, Teacher teacher) {
+    public Grade(Long id, int gradeValue, String comment, LocalDate date, Student student, Subject subject, Teacher teacher) {
         this.id = id;
         this.gradeValue = gradeValue;
         this.comment = comment;
@@ -70,11 +71,11 @@ public class Grade {
         this.comment = comment;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

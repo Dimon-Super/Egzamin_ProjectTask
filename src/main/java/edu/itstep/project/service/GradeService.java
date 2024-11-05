@@ -13,8 +13,10 @@ import edu.itstep.project.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,7 @@ public class GradeService {
         return gradeRepository
                 .findAll()
                 .stream()
+                .distinct()
                 .map(GradeOutDTO::new)
                 .toList();
     }
@@ -66,25 +69,28 @@ public class GradeService {
         gradeRepository.save(grade);
     }
 
-    public void updateGrade(GradeInDTO gradeInDTO, long id) {
-        Grade grade = gradeRepository.findById(id).orElseThrow(() -> new GradeNotFoundException(id));
-        grade.setGradeValue(gradeInDTO.getGradeValue());
-        grade.setComment(gradeInDTO.getComment());
-        grade.setDate(gradeInDTO.getDate());
+    public void updateGrade(GradeUpdateDTO gradeUpdateDTO, Long id) {
+        Grade grade = gradeRepository.findById(id)
+                .orElseThrow(() -> new GradeNotFoundException(id));
 
-        grade.setStudent(studentRepository.findById(gradeInDTO.getStudentId())
-                .orElseThrow(() -> new StudentNotFoundException(gradeInDTO.getStudentId())));
+        grade.setGradeValue(gradeUpdateDTO.getGradeValue());
+        grade.setComment(gradeUpdateDTO.getComment());
+        grade.setDate(gradeUpdateDTO.getDate());
 
-        grade.setSubject(subjectRepository.findById(gradeInDTO.getSubjectId())
-                .orElseThrow(() -> new SubjectNotFoundException(gradeInDTO.getSubjectId())));
+        grade.setStudent(studentRepository.findById(gradeUpdateDTO.getStudentId())
+                .orElseThrow(() -> new StudentNotFoundException(gradeUpdateDTO.getStudentId())));
 
-        grade.setTeacher(teacherRepository.findById(gradeInDTO.getTeacherId())
-                .orElseThrow(() -> new TeacherNotFoundException(gradeInDTO.getTeacherId())));
+        grade.setSubject(subjectRepository.findById(gradeUpdateDTO.getSubjectId())
+                .orElseThrow(() -> new SubjectNotFoundException(gradeUpdateDTO.getSubjectId())));
+
+        grade.setTeacher(teacherRepository.findById(gradeUpdateDTO.getTeacherId())
+                .orElseThrow(() -> new TeacherNotFoundException(gradeUpdateDTO.getTeacherId())));
 
         gradeRepository.save(grade);
     }
 
     public void deleteGrade(long id) {
+        System.out.println("Deleting grade with ID: " + id);
         if (!gradeRepository.existsById(id)) {
             throw new GradeNotFoundException(id);
         }
@@ -92,7 +98,8 @@ public class GradeService {
     }
 
     public List<StudentDTO> getAllStudents() {
-        return studentRepository.findAll()
+        return studentRepository
+                .findAll()
                 .stream()
                 .map(StudentDTO::new)
                 .toList();
@@ -100,7 +107,8 @@ public class GradeService {
 
 
     public List<SubjectDTO> getAllSubjects() {
-        return subjectRepository.findAll()
+        return subjectRepository
+                .findAll()
                 .stream()
                 .map(SubjectDTO::new)
                 .toList();
@@ -108,21 +116,27 @@ public class GradeService {
 
 
     public List<TeacherDTO> getAllTeachers() {
-        return teacherRepository.findAll()
+        return teacherRepository
+                .findAll()
                 .stream()
                 .map(TeacherDTO::new)
                 .toList();
     }
 
-    public List<GradeOutDTO> filterGrades(Long subjectId, LocalDate date) {
-        return gradeRepository.findAll()
-                .stream()
-                .filter(grade -> (subjectId == null || grade.getSubject().getId().equals(subjectId)) &&
-                        (date == null || grade.getDate().toInstant()
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate()
-                                .isEqual(date)))
+    public List<GradeOutDTO> filterGrades(Long subjectId, LocalDate filterDate) {
+        return gradeRepository
+                .findAll().stream()
+                .filter(grade -> subjectId == null || grade.getSubject().getId().equals(subjectId))
+                .filter(grade -> filterDate == null || grade.getDate().equals(filterDate)) // Зміна тут
                 .map(GradeOutDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    private LocalDate toLocalDate(Date date) {
+        if (date instanceof java.sql.Date sqlDate) {
+            return sqlDate.toLocalDate();
+        } else {
+            return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
     }
 }

@@ -1,20 +1,21 @@
 package edu.itstep.project.dto;
 
-
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GradeInDTO {
+public class GradeUpdateDTO {
+    @NotNull(message = "ID is required")
+    private Long id;
+
     @NotNull(message = "Student is required")
     private Long studentId;
 
@@ -27,9 +28,9 @@ public class GradeInDTO {
     @NotNull(message = "Grade date is required")
     private LocalDate date;
 
-    @NotNull(message = "Grade value is required")
     @Min(value = 0, message = "Grade must be at least 0")
     @Max(value = 100, message = "Grade must not exceed 100")
+    @NotNull(message = "Grade value is required")
     private Integer gradeValue;
 
     private String comment;
