@@ -127,16 +127,17 @@ public class GradeService {
         return gradeRepository
                 .findAll().stream()
                 .filter(grade -> subjectId == null || grade.getSubject().getId().equals(subjectId))
-                .filter(grade -> filterDate == null || grade.getDate().equals(filterDate)) // Зміна тут
+                .filter(grade -> filterDate == null || grade.getDate().equals(filterDate))
                 .map(GradeOutDTO::new)
                 .collect(Collectors.toList());
     }
 
-    private LocalDate toLocalDate(Date date) {
-        if (date instanceof java.sql.Date sqlDate) {
-            return sqlDate.toLocalDate();
-        } else {
-            return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        }
+    public List<GradeOutDTO> getGradesByStudentId(Long studentId, Long subjectId, LocalDate filterDate) {
+        return gradeRepository.findAll().stream()
+                .filter(grade -> grade.getStudent().getId().equals(studentId))
+                .filter(grade -> subjectId == null || grade.getSubject().getId().equals(subjectId))
+                .filter(grade -> filterDate == null || grade.getDate().equals(filterDate))
+                .map(GradeOutDTO::new)
+                .collect(Collectors.toList());
     }
 }

@@ -76,9 +76,12 @@
         <tr th:each="grade : ${grades}">
             <td th:text="${grade.studentName}"></td>
             <td th:text="${grade.subjectName}"></td>
-            <td th:text="${#temporals.format(grade.date, 'yyyy-MM-dd')}"></td> <!-- Изменено здесь -->
+            <td th:text="${#temporals.format(grade.date, 'yyyy-MM-dd')}"></td>
             <td th:text="${grade.gradeValue}"></td>
             <td th:text="${grade.comment}"></td>
+            <td>
+                <a th:href="@{/students/{id}/grades(id=${grade.studentId})}" class="btn">Переглянути оцінки</a>
+            </td>
             <td>
                 <a th:href="@{/grades/edit/{id}(id=${grade.id})}">Редагувати</a>
                 <form th:action="@{/grades/delete/{id}(id=${grade.id})}" method="post" style="display:inline;">

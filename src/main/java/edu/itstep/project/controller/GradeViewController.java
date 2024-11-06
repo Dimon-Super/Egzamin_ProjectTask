@@ -52,7 +52,7 @@ public class GradeViewController {
     public String showCreateGradePage(Model model) {
         model.addAttribute("students", gradeService.getAllStudents());
         model.addAttribute("subjects", gradeService.getAllSubjects());
-        model.addAttribute("teachers", gradeService.getAllTeachers()); // Додайте цей рядок
+        model.addAttribute("teachers", gradeService.getAllTeachers());
 
         return "createGrade";
     }

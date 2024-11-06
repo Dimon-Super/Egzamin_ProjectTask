@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grades for Student</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Оцінки студента: <span th:text="${student.firstName} + ' ' + ${student.lastName}"></span></h1> <!-- Додаємо ім'я студента -->
+
+<section>
+    <h2>Фільтрувати оцінки</h2>
+    <form th:action="@{/students/{id}/grades(id=${studentId})}" method="get">
+        <label for="filterSubject">Предмет:</label>
+        <select name="subjectId" id="filterSubject">
+            <option value="">Всі</option>
+            <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
+        </select>
+
+        <label for="filterDate">Дата:</label>
+        <input type="date" name="date" id="filterDate">
+
+        <button type="submit">Фільтрувати</button>
+    </form>
+</section>
+
+<section>
+    <h2>Список оцінок</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Предмет</th>
+            <th>Дата</th>
+            <th>Оцінка</th>
+            <th>Коментар</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="grade : ${grades}">
+            <td th:text="${grade.subjectName}"></td>
+            <td th:text="${#temporals.format(grade.date, 'yyyy-MM-dd')}"></td>
+            <td th:text="${grade.gradeValue}"></td>
+            <td th:text="${grade.comment}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

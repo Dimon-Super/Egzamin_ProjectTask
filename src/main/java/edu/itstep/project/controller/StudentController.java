@@ -1,6 +1,7 @@
 package edu.itstep.project.controller;
 
 import edu.itstep.project.dto.StudentDTO;
+import edu.itstep.project.dto.GradeOutDTO;
 import edu.itstep.project.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
