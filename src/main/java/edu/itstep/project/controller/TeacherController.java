@@ -23,27 +23,4 @@ public class TeacherController {
     public ResponseEntity<List<TeacherDTO>> getAllTeachers() {
         return ResponseEntity.ok(teacherService.getAllTeachers());
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<TeacherDTO> getTeacherById(@PathVariable Long id) {
-        return ResponseEntity.ok(teacherService.getTeacherById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> createTeacher(@RequestBody TeacherDTO teacherDTO) {
-        teacherService.createTeacher(teacherDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateTeacher(@RequestBody TeacherDTO teacherDTO, @PathVariable Long id) {
-        teacherService.updateTeacher(teacherDTO, id);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTeacher(@PathVariable Long id) {
-        teacherService.deleteTeacher(id);
-        return ResponseEntity.noContent().build();
-    }
 }

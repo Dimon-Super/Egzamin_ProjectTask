@@ -21,32 +21,4 @@ public class TeacherService {
                 .map(TeacherDTO::new)
                 .toList();
     }
-
-    public TeacherDTO getTeacherById(long id) {
-        return teacherRepository
-                .findById(id)
-                .map(TeacherDTO::new)
-                .orElseThrow(() -> new TeacherNotFoundException(id));
-    }
-
-    public void createTeacher(TeacherDTO teacherDTO) {
-        Teacher teacher = new Teacher();
-        teacher.setFirstName(teacherDTO.getFirstName());
-        teacher.setLastName(teacherDTO.getLastName());
-        teacherRepository.save(teacher);
-    }
-
-    public void updateTeacher(TeacherDTO teacherDTO, long id) {
-        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
-        teacher.setFirstName(teacherDTO.getFirstName());
-        teacher.setLastName(teacherDTO.getLastName());
-        teacherRepository.save(teacher);
-    }
-
-    public void deleteTeacher(long id) {
-        if (!teacherRepository.existsById(id)) {
-            throw new TeacherNotFoundException(id);
-        }
-        teacherRepository.deleteById(id);
-    }
 }

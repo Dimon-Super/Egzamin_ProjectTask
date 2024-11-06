@@ -31,25 +31,4 @@ public class StudentService {
                 .map(StudentDTO::new)
                 .orElseThrow(() -> new StudentNotFoundException(id));
     }
-
-    public void createStudent(StudentDTO studentDTO) {
-        Student student = new Student();
-        student.setFirstName(studentDTO.getFirstName());
-        student.setLastName(studentDTO.getLastName());
-        studentRepository.save(student);
-    }
-
-    public void updateStudent(StudentDTO studentDTO, long id) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
-        student.setFirstName(studentDTO.getFirstName());
-        student.setLastName(studentDTO.getLastName());
-        studentRepository.save(student);
-    }
-
-    public void deleteStudent(long id) {
-        if (!studentRepository.existsById(id)) {
-            throw new StudentNotFoundException(id);
-        }
-        studentRepository.deleteById(id);
-    }
 }

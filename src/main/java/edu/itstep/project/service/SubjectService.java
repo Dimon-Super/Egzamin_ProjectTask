@@ -21,30 +21,4 @@ public class SubjectService {
                 .map(SubjectDTO::new)
                 .toList();
     }
-
-    public SubjectDTO getSubjectById(long id) {
-        return subjectRepository
-                .findById(id)
-                .map(SubjectDTO::new)
-                .orElseThrow(() -> new SubjectNotFoundException(id));
-    }
-
-    public void createSubject(SubjectDTO subjectDTO) {
-        Subject subject = new Subject();
-        subject.setName(subjectDTO.getName());
-        subjectRepository.save(subject);
-    }
-
-    public void updateSubject(SubjectDTO subjectDTO, long id) {
-        Subject subject = subjectRepository.findById(id).orElseThrow(() -> new SubjectNotFoundException(id));
-        subject.setName(subjectDTO.getName());
-        subjectRepository.save(subject);
-    }
-
-    public void deleteSubject(long id) {
-        if (!subjectRepository.existsById(id)) {
-            throw new SubjectNotFoundException(id);
-        }
-        subjectRepository.deleteById(id);
-    }
 }
